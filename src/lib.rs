@@ -58,6 +58,11 @@ pub enum Tee {
     #[strum(serialize = "hygondcu")]
     HygonDcu,
 
+    /// NVIDIA DPU attestation
+    #[serde(rename = "nvidia-dpu", alias = "nvidiadpu")]
+    #[strum(to_string = "nvidia-dpu", serialize = "nvidiadpu")]
+    NvidiaDpu,
+
     // Trusted Platform Module
     #[strum(serialize = "tpm")]
     Tpm,
@@ -737,6 +742,7 @@ mod tests {
         assert_eq!(Tee::Csv.as_ref(), "csv");
         assert_eq!(Tee::Se.as_ref(), "se");
         assert_eq!(Tee::HygonDcu.as_ref(), "hygondcu");
+        assert_eq!(Tee::NvidiaDpu.as_ref(), "nvidia-dpu");
         assert_eq!(Tee::Tpm.as_ref(), "tpm");
         assert_eq!(Tee::Sample.as_ref(), "sample");
         assert_eq!(Tee::SampleDevice.as_ref(), "sampledevice");
@@ -757,9 +763,22 @@ mod tests {
         assert_eq!(Tee::from_str("csv").unwrap(), Tee::Csv);
         assert_eq!(Tee::from_str("se").unwrap(), Tee::Se);
         assert_eq!(Tee::from_str("hygondcu").unwrap(), Tee::HygonDcu);
+        assert_eq!(Tee::from_str("nvidia-dpu").unwrap(), Tee::NvidiaDpu);
+        assert_eq!(Tee::from_str("nvidiadpu").unwrap(), Tee::NvidiaDpu);
         assert_eq!(Tee::from_str("tpm").unwrap(), Tee::Tpm);
         assert_eq!(Tee::from_str("sample").unwrap(), Tee::Sample);
         assert_eq!(Tee::from_str("sampledevice").unwrap(), Tee::SampleDevice);
         Tee::from_str("invalid").unwrap_err();
+    }
+
+    #[test]
+    fn tee_serde_nvidia_dpu_alias() {
+        // Primary serialization output is "nvidia-dpu"
+        let serialized = serde_json::to_string(&Tee::NvidiaDpu).unwrap();
+        assert_eq!(serialized, "\"nvidia-dpu\"");
+
+        // "nvidiadpu" is accepted as a deserialization alias
+        let deserialized: Tee = serde_json::from_str("\"nvidiadpu\"").unwrap();
+        assert_eq!(deserialized, Tee::NvidiaDpu);
     }
 }
