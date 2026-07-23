@@ -36,8 +36,8 @@ pub enum Tee {
     #[serde(rename = "az-tdx-vtpm")]
     #[strum(serialize = "az-tdx-vtpm")]
     AzTdxVtpm,
-    #[strum(serialize = "nvidia")]
-    Nvidia,
+    #[strum(serialize = "nvidia-gpu")]
+    NvidiaGpu,
     #[strum(serialize = "sgx")]
     Sgx,
     #[strum(serialize = "snp")]
@@ -734,7 +734,7 @@ mod tests {
     fn tee_as_ref() {
         assert_eq!(Tee::AzSnpVtpm.as_ref(), "az-snp-vtpm");
         assert_eq!(Tee::AzTdxVtpm.as_ref(), "az-tdx-vtpm");
-        assert_eq!(Tee::Nvidia.as_ref(), "nvidia");
+        assert_eq!(Tee::NvidiaGpu.as_ref(), "nvidia-gpu");
         assert_eq!(Tee::Sgx.as_ref(), "sgx");
         assert_eq!(Tee::Snp.as_ref(), "snp");
         assert_eq!(Tee::Tdx.as_ref(), "tdx");
@@ -755,7 +755,7 @@ mod tests {
 
         assert_eq!(Tee::from_str("az-snp-vtpm").unwrap(), Tee::AzSnpVtpm);
         assert_eq!(Tee::from_str("az-tdx-vtpm").unwrap(), Tee::AzTdxVtpm);
-        assert_eq!(Tee::from_str("nvidia").unwrap(), Tee::Nvidia);
+        assert_eq!(Tee::from_str("nvidia-gpu").unwrap(), Tee::NvidiaGpu);
         assert_eq!(Tee::from_str("sgx").unwrap(), Tee::Sgx);
         assert_eq!(Tee::from_str("snp").unwrap(), Tee::Snp);
         assert_eq!(Tee::from_str("tdx").unwrap(), Tee::Tdx);
